@@ -2,12 +2,13 @@ import React from 'react'
 import Axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/router'
-import Swal from 'sweetalert2'
+import Navbar from '../../components/Navbar'
 
-export default function getData({ employees }) {
+export default function Index({ employees }) {
 
      //====Start Function Delete Data=====
      const router = useRouter()
+
      const deleteUser = (ID) => {
         Axios
         .delete('http://localhost:8080/employees/' + ID)
@@ -23,9 +24,16 @@ export default function getData({ employees }) {
       //====End Function Delete Data=====
 
   return (
-    <div align="center">
-       <Link href="/postData"><a>Add</a></Link>
-<table id="example2" className="table table-bordered table-hover" border="1">
+    <>
+      <Navbar />
+       <br />
+       <div className="container">
+      <div className="card">
+  <div className="card-header">
+    ข้อมูลพนักงาน
+  </div>
+  <div className="card-body">
+<table id="example2" className="table table-bordered table-hover table-responsive" border="1">
                 <thead>
                   <tr>
                     <th className="text-center">ID</th>
@@ -45,13 +53,17 @@ export default function getData({ employees }) {
                     <td>{data.Employee_name}</td>
                     <td>{data.Employee_username}</td>
                     <td>{data.Employee_password}</td>
-                    <td className="text-center"><Link href={`/employees/edit/${data.Id}`}><a className="btn btn-warning btn-sm">แก้ไข</a></Link></td>
+                    <td className="text-center"><Link href={`/employee/edit/${data.ID}`}><a className="btn btn-warning btn-sm">แก้ไข</a></Link></td>
                     <td className="text-center"><button type="button" className="btn btn-danger btn-sm" onClick={() => { deleteUser(data.ID)}}>ลบ</button></td>
                   </tr>
                 ))}
                 </tbody>
               </table>
+              <Link href="/employee/post"><a className="btn btn-success btn-sm text-right">เพิ่มข้อมูลพนักงาน</a></Link>
     </div>
+    </div>
+    </div>
+    </>
   )
 }
 
